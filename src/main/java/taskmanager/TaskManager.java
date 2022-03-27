@@ -34,7 +34,7 @@ public class TaskManager {
     public boolean add(final Process p) {
         if (this.processList.size() < capacity) {
             setTimestamp(p);
-            return this.processList.add(p);
+            return this.processList.add(p.clone());
         }
         return false;
     }
@@ -66,7 +66,11 @@ public class TaskManager {
     }
 
     public Collection<Process> list(final ListCriterion criterion) {
-        final List<Process> sorted = new ArrayList<>(this.processList);
+        final List<Process> sorted = new LinkedList<>(); // to get O(1) addition at the tail
+        for (final Process p : this.processList) {
+            sorted.add(p.clone());
+        }
+
         switch (criterion) {
             case CREATION:
                 sorted.sort(CREATION_COMPARATOR);

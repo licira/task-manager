@@ -19,7 +19,7 @@ of the specs without overengineering.
 The assumption was that we had an initial implementation, and then just as in real life, clients would come with
 new requirements. Thus, when performing the design at first I implemented the size based task manager and 
 afterwards in the SOLID spirit I extended the *TaskManager* class trying to modify as less as possible the initial
-implementation (in order to avoid potential error) and in exchange extend the existing *TaskManager* by creating 
+implementation (in order to avoid potential errors) and in exchange extend the existing *TaskManager* by creating 
 2 new classes: *FifoTaskManager* and *PriorityTaskManager*, each one answering to a specific use case.
 
 ### Task Manager Design
@@ -43,7 +43,7 @@ gets updated when adding - i.e. queueing)
 The underlying data structure is the priority queue (with its underlying heap data structure) 
 with induced fixed size (i.e. never grows beyond capacity + 1).
 This data structure was chosen as it holds data sorted by custom criteria.
-add() -> log(n) (when adding an element, if the capacity is reached before addition we add the element, and the perform
+add() -> O(logn) (when adding an element, if the capacity is reached before addition we add the element, and the perform
 a poll() in order to assure the removal of the first element according to the sorting criteria)
 
 We ensure the priority criteria of the task manager by making use of Java's custom comparator based on process 
@@ -53,13 +53,12 @@ For all types of task managers the following operations are the same:
 
 kill() -> O(n) (iterate through all the list and remove the process matching a given pid)
 
-killGroup() -> O(n)
+killGroup() -> O(n) (iterate through all the list and remove the processes matching a certain priority level)
 
 killAll() -> O(1)
 
 list() -> O(nlogn) (we make use of Java's sorting implementation based on custom comparators that are based on:
-creation time, priority level + creation time or pid);
-
+creation time, priority level + creation time or pid).
 
 ### Setup
 
@@ -69,7 +68,7 @@ Set Java 12 as project SDK.
 
 Set Java 12 as programming language level.
 
-Set target bytcode level 12 for Java compiler
+Set target bytcode level 12 for Java compiler.
 
 Go to *TaskManagerTest* and right click on the name of the class in the .java file and hit 'Run TaskManagerTest'.
 
